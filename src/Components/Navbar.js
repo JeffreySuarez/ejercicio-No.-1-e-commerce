@@ -6,7 +6,7 @@ import { shoppingCart } from "react-icons-kit/feather/shoppingCart";
 import { auth } from "../Firebase/Config";
 import { useHistory } from "react-router-dom";
 
-export const Navbar = ({ user }) => {
+export const Navbar = ({ user, totalProducts }) => {
   const history = useHistory();
 
   const handleLogout = () => {
@@ -48,7 +48,7 @@ export const Navbar = ({ user }) => {
               <Link className="navlink" to="/cart">
                 <Icon icon={shoppingCart} size={20} />
               </Link>
-              {/* <span className="cart-indicator">{totalQty}</span> */}
+              <span className="cart-indicator">{totalProducts}</span>
             </div>
             <div
               className="btn btn-danger btn-md logout-btn"

@@ -64,13 +64,29 @@ export const Home = (props) => {
     obtenerProductos();
   }, []);
 
+  //state de totalProducts
+
+  const [totalProducts, setTotalProducts] = useState(0);
+  //obtener productos del carrito
+  useEffect(() => {
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        fs.collection("Cart " + user.uid).onSnapshot((snapshot) => {
+          const qty = snapshot.docs.length;
+          setTotalProducts(qty);
+        });
+      }
+    });
+  }, []);
+  console.log("totalproductos = " + totalProducts);
+
   let Product;
   const addToCart = (products) => {
     if (uid !== null) {
       console.log(products);
       Product = products;
       Product["qty"] = 1;
-      Product["TotalProductPrice"] = Product.qty * Product.price;
+      Product["TotalProductPrecio"] = Product.qty * Product.precio;
       fs.collection("Cart " + uid)
         .doc(products.ID)
         .set(Product)
@@ -84,7 +100,7 @@ export const Home = (props) => {
 
   return (
     <>
-      <Navbar user={user} />
+      <Navbar user={user} totalProducts={totalProducts} />
       <br></br>
       {products.length > 0 && (
         <div className="container-fluid">
